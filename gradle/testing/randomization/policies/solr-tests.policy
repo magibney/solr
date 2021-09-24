@@ -226,4 +226,6 @@ grant {
   permission java.io.FilePermission "${gradle.worker.jar}", "read";
   // Allow reading from classpath JARs (resources).
   permission java.io.FilePermission "${gradle.user.home}${/}-", "read";
+  // Allow reading jars from local lucene repo
+  permission java.io.FilePermission "${local-lucene.dir}${/}-", "read";
 };

@@ -187,6 +187,11 @@ allprojects {
           systemProperty 'java.security.manager', "org.apache.lucene.util.TestSecurityManager"
           systemProperty 'java.security.policy', file("${resources}/policies/solr-tests.policy")
 
+          String localLuceneDir = Paths.get("${rootProject.projectDir}/lucene/main/lucene").toAbsolutePath().toString()
+          if (file(localLuceneDir).exists()) {
+	    systemProperty 'local-lucene.dir', localLuceneDir
+          }
+
           def gradleUserHome = project.gradle.getGradleUserHomeDir()
           systemProperty 'gradle.lib.dir', Paths.get(project.class.location.toURI()).parent.toAbsolutePath().toString().replace('\\', '/')
           systemProperty 'gradle.worker.jar', Paths.get("${gradleUserHome}/caches/${gradle.gradleVersion}/workerMain/gradle-worker.jar").toAbsolutePath().toString()
