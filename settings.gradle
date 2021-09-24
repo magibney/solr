@@ -81,7 +81,10 @@ if (file("lucene/main").exists()) {
 
           // We have to provide an explicit version to substitute because otherwise
           // all dependencies (including plugin dependencies?!) get substituted.
-          String luceneVersion = "9.0.0-prerelease5"
+          String luceneVersionPrefix = 'org.apache.lucene:*='
+          String luceneVersion = file("versions.props").filterLine { line ->
+            line.startsWith(luceneVersionPrefix)
+          }.toString().trim().substring(luceneVersionPrefix.length())
           substitutionMap.each { depName, moduleName ->
             substitute(module("${depName}:${luceneVersion}")).using(project(moduleName))
           }
