@@ -42,11 +42,12 @@ include "solr:documentation"
 include "solr:packaging"
 include "solr:docker"
 
+String defaultLocalLuceneRelativePath = 'lucene/main'
 String localLuceneDir = System.properties.get('localLuceneDir')
 
 if (''.equals(localLuceneDir)) {
   // explicitly override default localLuceneDir even if it exists
-} else if (localLuceneDir != null || file(localLuceneDir = 'lucene/main').exists()) {
+} else if (localLuceneDir != null || file(localLuceneDir = defaultLocalLuceneRelativePath).exists()) {
   gradle.ext.localLuceneDir = file(localLuceneDir).getAbsolutePath().toString() // make accessible from security policy setup
   includeBuild(localLuceneDir) {
       dependencySubstitution {
