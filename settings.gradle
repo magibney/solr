@@ -42,8 +42,13 @@ include "solr:documentation"
 include "solr:packaging"
 include "solr:docker"
 
-if (file("lucene/main").exists()) {
-  includeBuild("lucene/main") {
+String localLuceneDir = System.properties.get('localLuceneDir')
+
+if (''.equals(localLuceneDir)) {
+  // explicitly override default localLuceneDir even if it exists
+} else if (localLuceneDir != null || file(localLuceneDir = 'lucene/main').exists()) {
+  gradle.ext.localLuceneDir = file(localLuceneDir).getAbsolutePath().toString() // make accessible from security policy setup
+  includeBuild(localLuceneDir) {
       dependencySubstitution {
           def substitutionMap = [
             "org.apache.lucene:lucene-analysis-common" : ":lucene:analysis:common",
