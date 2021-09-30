@@ -22,9 +22,15 @@ def forcedLuceneVersion = propertyOrDefault("lucene.version", null)
 if (forcedLuceneVersion != null) {
   logger.lifecycle("Forcing Lucene version to: ${forcedLuceneVersion}")
 
+  def userHome = System.properties.get('user.home')
+
   allprojects {
     repositories {
       mavenLocal()
+    }
+
+    tasks.withType(Test) {
+      systemProperty 'lucene-maven-local.dir', file("${userHome}/.m2/repository/org/apache/lucene").absolutePath
     }
 
     configurations.all {
