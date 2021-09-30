@@ -20,6 +20,13 @@
 
 def forcedLuceneVersion = propertyOrDefault("lucene.version", null)
 if (forcedLuceneVersion != null) {
+  if (gradle.ext.has('luceneDevRepo')) {
+    // these are mutually exclusive; arbitrarily pick `lucene-dev-repo` to take priority
+    logger.lifecycle("Local Lucene dev repo takes priority; ignoring forced Lucene version: ${forcedLuceneVersion}")
+    logger.lifecycle("to disable auto-wiring of local Lucene dev repo, use `-Dlucene.dev.repo=false`")
+    return
+  }
+
   logger.lifecycle("Forcing Lucene version to: ${forcedLuceneVersion}")
 
   def userHome = System.properties.get('user.home')

@@ -31,6 +31,8 @@ if (luceneDevRepo.exists()) {
       return
     }
 
+    gradle.ext.luceneDevRepo = luceneDevRepo
+
     // Include Lucene repository as a composite and substitute module names.
     includeBuild(luceneDevRepo) {
       dependencySubstitution {
@@ -88,6 +90,9 @@ if (luceneDevRepo.exists()) {
         systemProperty 'lucene-dev-repo.dir', luceneDevRepo.absolutePath
       }
     }
+
+    // nocommit: would we need something analogous here?:
+    // gradle.ext.luceneDevRepo = luceneDevRepo
   }
 }
 
